@@ -49,5 +49,13 @@
         height: 100%; */
         text-align: center;
     }
+
+    .grid-chart{
+        display: grid;
+        margin: 10px;
+        margin-top: 0;
+        grid-template-columns: repeat(3, 1fr);
+        justify-items: center;
+    }
     
 }

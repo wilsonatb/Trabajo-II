@@ -19,7 +19,7 @@ class Arduino extends Controller
           $this->model->envio();
       }
 
-      $this->model->getParametros();
+      /* $this->model->getParametros(); */
 
       $this->model->getConfiguracion();
 
@@ -30,6 +30,22 @@ class Arduino extends Controller
       } */
 
     }
+
+    function datosGraficarTemp()
+    {
+      $this->model->getTemp();
+    }
+
+    function datosGraficarHumd()
+    {
+      $this->model->getHumd();
+    }
+
+    function datosGraficarAire()
+    {
+      $this->model->getHumd();
+    }
+
 }
 
 ?>

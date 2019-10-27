@@ -32,13 +32,7 @@ class Configuracion extends Controller
 
       $this->view->mensaje = $selected;
 
-      $this->render();//llamamos a la vista
-
-      /* if (isset($_POST['dato']))
-      {
-        $prueba = $_POST['dato'];
-      //  var_dump($prueba);
-      } */
+      $this->render();
 
     }
 }

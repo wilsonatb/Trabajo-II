@@ -28,7 +28,7 @@ class ArduinoModel extends Database
         $query->execute(['temp' => $this->temperatura, 'hum' => $this->humedad]);
     }
 
-    public function getParametros()//extraer los datos de la bd
+    public function getTemp()//extraer los datos de la bd
     {
         //seleciona el maximo id de la tabla y regresa un objeto PDO este valor lo guarda para usarlo luego
         $query = $this->connect()->query('SELECT MAX(id) AS id_max FROM `parametros`');
@@ -40,10 +40,40 @@ class ArduinoModel extends Database
 
         //Con el id_maximno obtenido se hace una busqueda en la tabla donde la humedad se la mas actual
         $query = $this->connect()->query('SELECT `temperatura` FROM `parametros` WHERE id = ' . $id_maximo);
-        $valor_deseado2 = $this->temperatura = $query->fetch(PDO::FETCH_OBJ)->temperatura;
+        $y = $this->temperatura = $query->fetch(PDO::FETCH_OBJ)->temperatura;
+
+        // setea una cabecera JSON
+        header("Content-type: text/json");
+        // el valor de la x es el tiempo en este moemento en formato unix multiplicado x 1000
+        $x = time() * 1000;
+        
+        /* $y = rand(0, 100); */
+        // Crea un arreglo PHP y al hacer el echo parece un JSON
+        $ret = array($x, $y);
+        echo json_encode($ret);
+
+        /* $ret1 = array($x, $valor_deseado);
+        echo json_encode($ret1); */
 
         //finalmente se escriben esos datos en un formato que el arduino pueda reconcoer y almacenar
-        echo $valor_deseado . '*' . $valor_deseado2 . '*';
+       /*  echo $valor_deseado . '*' . $y . '*'; */
+    }
+
+    public function getHumd()
+    {
+        $query = $this->connect()->query('SELECT MAX(id) AS id_max FROM `parametros`');
+        $id_maximo = $query->fetch(PDO::FETCH_OBJ)->id_max;
+
+        //Con el id_maximno obtenido se hace una busqueda en la tabla donde la humedad se la mas actual
+        $query = $this->connect()->query('SELECT `humedad` FROM `parametros` WHERE id = ' . $id_maximo);
+        $y = $this->humedad = $query->fetch(PDO::FETCH_OBJ)->humedad;
+
+        $x = time() * 1000;
+        
+        /* $y = rand(0, 100); */
+        // Crea un arreglo PHP y al hacer el echo parece un JSON
+        $ret = array($x, $y);
+        echo json_encode($ret);
     }
 
     public function getConfiguracion()

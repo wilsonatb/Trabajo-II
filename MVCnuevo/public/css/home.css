@@ -48,7 +48,30 @@ section h1{
     margin: 0;
 }
 
+.grid-submenu .box-opcion{
+    border-radius: 20px;
+}
+
 .grid-item{
     background-color:  rgb(50, 51, 48);
     padding: 10px;
+    border-radius: 20px;
+}
+
+.grid-chart{
+    display: grid;
+    margin: 10px;
+    margin-top: 100px;
+    grid-template-columns: repeat(3, 1fr);
+    justify-items: center;
+}
+
+#container1, #container2, #container3{
+    min-width: 310px;
+    width: 96%;
+    height: 400px;
+    margin: 0 auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 20px;
 }
