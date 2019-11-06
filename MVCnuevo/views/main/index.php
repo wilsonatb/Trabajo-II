@@ -16,7 +16,7 @@
         <div id="main-container">
             <div id="main-section">
                 <div class="logo">
-                    <a href="#"><img src="public/img/logo-unexpo.png" alt=""></a>
+                    <a href="#"><img src="<?php echo constant('URL'); ?>public/img/logo-unexpo.png" alt=""></a>
                 </div>
                     <div id="menu">
                         <ul>
@@ -32,7 +32,7 @@
                                 </a>                                
                             </li>
                             <li>
-                                <a href="<?php echo constant('URL'); ?>login">
+                                <a href="<?php echo constant('URL'); ?>login/inicio">
                                     <div>
                                         <h1>Ingresar</h1>
                                         <h2>Es hora de trabajar!!</h2>

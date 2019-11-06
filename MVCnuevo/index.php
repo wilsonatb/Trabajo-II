@@ -6,7 +6,7 @@ require_once 'libs/app.php';
 require_once 'libs/view.php';
 require_once 'libs/model.php';
 
-require_once 'models/usermodel.php';
+/* require_once 'models/loginmodel.php'; */
 require_once 'libs/user_session.php';
 
 

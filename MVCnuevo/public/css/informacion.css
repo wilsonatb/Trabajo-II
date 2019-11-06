@@ -48,6 +48,7 @@ body{
 .point div:hover{
     background-color: #36D94F;
     transform: rotate(360deg);
+    
 }
 
 .p0{left: 70%; top: 15%}

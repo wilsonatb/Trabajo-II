@@ -1,17 +1,18 @@
 <?php
 //Aca hacemos toda la conexion del arduino con la aplicacion Web, estan definidos los metodos para setear los parametros, enviar a la db y extraer de la db
 
-class ArduinoModel extends Database
+class ArduinoModel extends Model
 {
 
-    public function __construct()
+    /* public function __construct()
     {
         parent::__construct();
-    }
+    } */
 
     /* private $totalVotes;//conteo de numero de votos */
     private $temperatura;
     private $humedad;
+    private $fechaTemp;
     private $etapa;
     private $valor1;
     private $valor2;
@@ -31,44 +32,41 @@ class ArduinoModel extends Database
     public function getTemp()//extraer los datos de la bd
     {
         //seleciona el maximo id de la tabla y regresa un objeto PDO este valor lo guarda para usarlo luego
-        $query = $this->connect()->query('SELECT MAX(id) AS id_max FROM `parametros`');
+        $query = $this->db->connect()->query('SELECT MAX(id) AS id_max FROM `parametros`');
         $id_maximo = $query->fetch(PDO::FETCH_OBJ)->id_max;
 
         //Con el id_maximno obtenido se hace una busqueda en la tabla donde la humedad se la mas actual
-        $query = $this->connect()->query('SELECT `humedad` FROM `parametros` WHERE id = ' . $id_maximo);
+        $query = $this->db->connect()->query('SELECT `humedad` FROM `parametros` WHERE id = ' . $id_maximo);
         $valor_deseado = $this->humedad = $query->fetch(PDO::FETCH_OBJ)->humedad;
 
         //Con el id_maximno obtenido se hace una busqueda en la tabla donde la humedad se la mas actual
-        $query = $this->connect()->query('SELECT `temperatura` FROM `parametros` WHERE id = ' . $id_maximo);
+        $query = $this->db->connect()->query('SELECT `temperatura` FROM `parametros` WHERE id = ' . $id_maximo);
         $y = $this->temperatura = $query->fetch(PDO::FETCH_OBJ)->temperatura;
+
+        $query = $this->db->connect()->query('SELECT UNIX_TIMESTAMP(fecha) AS fechaTemp FROM parametros WHERE id = ' . $id_maximo);
+        $fechaUnix = $this->fechaTemp = $query->fetch(PDO::FETCH_OBJ)->fechaTemp;
 
         // setea una cabecera JSON
         header("Content-type: text/json");
         // el valor de la x es el tiempo en este moemento en formato unix multiplicado x 1000
-        $x = time() * 1000;
+        $x = (time() - (60 * 60 * 4)) * 1000;
         
-        /* $y = rand(0, 100); */
         // Crea un arreglo PHP y al hacer el echo parece un JSON
         $ret = array($x, $y);
         echo json_encode($ret);
 
-        /* $ret1 = array($x, $valor_deseado);
-        echo json_encode($ret1); */
-
-        //finalmente se escriben esos datos en un formato que el arduino pueda reconcoer y almacenar
-       /*  echo $valor_deseado . '*' . $y . '*'; */
     }
 
     public function getHumd()
     {
-        $query = $this->connect()->query('SELECT MAX(id) AS id_max FROM `parametros`');
+        $query = $this->db->connect()->query('SELECT MAX(id) AS id_max FROM `parametros`');
         $id_maximo = $query->fetch(PDO::FETCH_OBJ)->id_max;
 
         //Con el id_maximno obtenido se hace una busqueda en la tabla donde la humedad se la mas actual
-        $query = $this->connect()->query('SELECT `humedad` FROM `parametros` WHERE id = ' . $id_maximo);
+        $query = $this->db->connect()->query('SELECT `humedad` FROM `parametros` WHERE id = ' . $id_maximo);
         $y = $this->humedad = $query->fetch(PDO::FETCH_OBJ)->humedad;
-
-        $x = time() * 1000;
+        
+        $x = (time() - (60 * 60 * 4)) * 1000;
         
         /* $y = rand(0, 100); */
         // Crea un arreglo PHP y al hacer el echo parece un JSON
@@ -78,42 +76,30 @@ class ArduinoModel extends Database
 
     public function getConfiguracion()
     {
-        $query = $this->connect()->query('SELECT MAX(id) AS id_max FROM `configuracion`');
+        $query = $this->db->connect()->query('SELECT MAX(id) AS id_max FROM `configuracion`');
         $id_maximo = $query->fetch(PDO::FETCH_OBJ)->id_max;
 
-        $query = $this->connect()->query('SELECT `etapa` FROM `configuracion` WHERE id = ' . $id_maximo);
+        $query = $this->db->connect()->query('SELECT `etapa` FROM `configuracion` WHERE id = ' . $id_maximo);
         $valor_deseado = $this->etapa = $query->fetch(PDO::FETCH_OBJ)->etapa;
 
         
-        $query = $this->connect()->query('SELECT `valor1` FROM `configuracion` WHERE id = ' . $id_maximo);
+        $query = $this->db->connect()->query('SELECT `valor1` FROM `configuracion` WHERE id = ' . $id_maximo);
         $valor_deseado2 = $this->valor1 = $query->fetch(PDO::FETCH_OBJ)->valor1;
 
         echo $valor_deseado . '*' . $valor_deseado2 . '*';
     }
-/*
-    public function getParametros() // esta funcion me permete regresar el valor selecionado
+
+
+    public function getTotal($parametro, $fechaInicio, $fechaFin)
     {
-        return $this->temperatura;
-        return $this->humedad;
-    }
-*/
-//usamos prepare y execute xq tenemos que validar que sea el tipo de dato que deseamos y asi tener buena seguridad
-    
+        $query = $this->db->connect()->query('SELECT SUM(' . $parametro . ') AS votos_totales FROM lenguajes WHERE fecha BETWEEM ' . $fechaInicio . ' AND ' . $fechaFin);
+        $this->totalVotes = $query->fetch(PDO::FETCH_OBJ)->votos_totales;
+        return $this->totalVotes;
+    }   
 
-//usamos query xq no tenemos que validar, vamos a sacar un dato de la base de datos
-    /* public function showResults()
-    {
-        return $this->connect()->query('SELECT * FROM lenguajes');
-    } */
-//SELECT MAX(id) AS id FROM `tesis`
-//SELECT `humedad` FROM `tesis` WHERE id = el maximo
-
-//Con esta funcion obetenemos el ultimo valor introducido de cualquier tabla
-    
-
-    /* public function getPercentageVotes($votes)
+    public function getPercentage($votes)
     {
         return round(($votes / $this->totalVotes) * 100, 0);
-    } */
+    }
 }
  ?>

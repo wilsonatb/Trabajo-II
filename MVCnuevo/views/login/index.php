@@ -1,32 +1,50 @@
-<?php
 
-$userSession = new UserSession(); // se crea un objeto de userSession
-$user = new UserModel();
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="utf-8">
+    <title>Ingresar</title>
+    <link rel="stylesheet" href="<?php echo constant('URL'); ?>public/css/media.css">
+    <link rel="stylesheet" href="<?php echo constant('URL'); ?>public/css/default.css">
+	<link rel="stylesheet" type="text/css" href="<?php echo constant('URL'); ?>public/css/login.css">
+<body>
+    
+    <header class="header">
+      <a href="<?php echo constant('URL'); ?>main" class="btn btn-verde">VOLVER</a>
+    </header>
 
-if(isset($_SESSION['user'])) //si existe una session
-{
-    $user->setUser($userSession->getCurrentUser()); //recupera el usuario
-    include_once 'home.php';
+    <div id="main-container">
+        <div id="main-section-login">
+            <div id="main">
+                <div class="logo">
+                    <a href="<?php echo constant('URL'); ?>main"><img src="<?php echo constant('URL'); ?>public/img/logo-unexpo.png" alt=""></a>
+                </div>
+                
+                <form action="<?php echo constant('URL'); ?>login/inicio" method="POST">
+                    <?php
+                        if(isset($this->mensaje)){
+                            echo $this->mensaje;
+                        }
+                    ?>
+                    <fieldset>
+                        <legend>Login</legend>
+                        <input type="text" name="username" placeholder="Username" autocomplete="on" required="on">
+                        <input type="password" name="password" placeholder="Password">
+                        <input type="submit" name="" value="Ingresar">
+                    </fieldset>
+                </form>
+                
+            </div>
+        </div>
+    </div>
+    
+    <footer class="footer">
+    
+        © Wilson Tovar & Leonardo Galindez 2019
 
-}elseif (isset($_POST['username']) && isset($_POST['password'])) //si se envia desde el form datos entra aqui
-{
-    $userForm = $_POST['username']; //guarda el username
-    $passForm = $_POST['password']; //guarda el password
+    </footer>  
+    
+</body>
+</html>
 
-    if($user->userExists($userForm, $passForm)) //si el usuario existe
-    {
-        $userSession->setCurrentUser($userForm);  //asigna el usuario a userSession
-        $user->setUser($userForm);  //guarda de la base de datos, en la clase user el username y el nombre
-
-        include_once 'home.php';
-    }else
-    {
-        $errorLogin = "Nombre de usuario y/o password es incorrecto";
-        include_once 'login.php';
-    }
-}else
-{
-    include_once 'login.php';
-}
-
- ?>
+ 

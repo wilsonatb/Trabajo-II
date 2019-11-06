@@ -84,6 +84,18 @@ h2{
     color: white;
 }
 
+.boton__submit{
+    border-radius: 30px;
+    border: solid 0.5em rgb(61, 59, 59);
+    padding: .4em 1em;
+    background-color: rgb(71, 71, 71);
+    color: white;
+    transition: 1s;   
+}
+
+.boton__submit:HOVER{
+    background-color: #36D94F;
+}
 
 /* *{
     padding: 0;

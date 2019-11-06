@@ -68,7 +68,7 @@
 
         <div id="historia-section" class="bg-pueblo">
             <div class="logo">
-                    <a href="<?php echo constant('URL'); ?>main"><img src="public/img/logo-unexpo.png" alt=""></a>
+                    <a href="<?php echo constant('URL'); ?>main"><img src="<?php echo constant('URL'); ?>public/img/logo-unexpo.png" alt=""></a>
             </div>
             <div id="menu">
                     <h1>Descubre</h1>

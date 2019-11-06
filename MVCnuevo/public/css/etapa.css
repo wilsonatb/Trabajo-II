@@ -35,20 +35,17 @@ section h1{
 #menu ul li a{
     text-decoration: none;
     color: white;
+    /* margin: 1em 2em; */
 }
 
 #menu ul li:HOVER{
     transform: translate(10px, 10px);
 }
 
-.box-opcion{
-    margin: 0.5em;
-}
-
 .grid-submenu{
     display: grid;
     margin: 10px;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     justify-items: center;
 }
 
@@ -56,39 +53,32 @@ section h1{
     margin: 0;
 }
 
-/* .grid-submenu span{
-    font-weight: bold;
-    font-size: 1.5em;
-} */
-
-/* .grid-submenu a{
-    font-weight: bold;
-    font-size: 1em;
-} */
-
-.grid-submenu form{
-    background-color: rgb(50, 51, 48);
-    border-radius: 20px;
-    padding-left: 1em;
-}
-
 .grid-submenu .box-opcion{
     border-radius: 20px;
 }
 
-#container1, #container2, #container3{
-    background-color:  rgb(50, 51, 48);
-    padding: 10px;
-    border-radius: 20px;
-}
-
-.grid-chart{
+.grid-etapas{
     display: grid;
     margin: 10px;
     margin-top: 100px;
     grid-template-columns: repeat(3, 1fr);
     justify-items: center;
+    
 }
+
+.grid-item{
+    background-color:  rgb(50, 51, 48);
+    padding: 1em;
+    border-radius: 20px;
+    justify-content: center;
+}
+
+
+.boton__etapas{
+    margin-left: 35em;
+}
+
+
 
 #container1, #container2, #container3{
     min-width: 310px;
